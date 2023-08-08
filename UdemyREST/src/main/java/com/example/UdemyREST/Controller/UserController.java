@@ -1,6 +1,10 @@
 package com.example.UdemyREST.Controller;
 
+import com.example.UdemyREST.Model.request.UserDetails;
 import com.example.UdemyREST.Model.response.UserRest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,9 +28,14 @@ public class UserController {
     }
 
     @PostMapping
-    public String createUser()
+    public ResponseEntity<UserRest> createUser(@Validated @RequestBody UserDetails userDetails)
     {
-        return "create User  called";
+        UserRest userRest = new UserRest();
+        userRest.setName(userDetails.getName());
+        userRest.setEmailId(userDetails.getEmailId());
+        userRest.setUserID(userDetails.getUserID());
+
+        return new ResponseEntity<UserRest>(userRest,HttpStatus.OK);
     }
 
     @PutMapping
